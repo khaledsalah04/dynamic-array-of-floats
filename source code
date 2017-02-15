@@ -1,0 +1,174 @@
+#include <iostream> 
+#include <string>
+#include <math.h>
+using namespace std;
+
+
+class dynamicfloats
+{
+	int s;
+	float *p;
+public:
+
+	dynamicfloats()
+	{
+		s = 0;
+		p = NULL;
+	}
+
+
+
+
+	void setelement(int index, float value)
+	{
+		p[index] = value;
+	}
+
+	void print()
+	{
+		for (int i = 0;i < s;i++)
+		{
+			cout << p[i] << endl;
+		}
+	}
+
+	void setsize(int news)
+	{
+		if (s == 0)
+		{
+			s = news;
+			p = new float[s];
+		}
+		else
+		{
+			int m = s;
+			if (news < s)
+				m = news;
+			float *t = new float[news];
+
+			for (int i = 0;i < m;i++)
+			{
+				t[i] = p[i];
+			}
+			delete[]p;
+			p = t;
+		}
+	}
+
+	int getsize()
+	{
+		return s;
+	}
+
+	void add(float value)
+	{
+		setsize(s + 1);
+		p[s - 1] = value;
+
+	}
+
+	float sum()
+	{
+		float sum = 0;
+		for (int i = 0;i < s;i++)
+		{
+			sum += p[i];
+		}
+		return sum;
+	}
+
+
+	void remove(int index)
+	{
+		for (int i = index;i<s - 1;i++)
+		{
+	    p[i] = p[i + 1];
+		}
+		s--;
+	}
+
+	int find(float value)
+	{
+		for (int i = 0;i < s;i++)
+		{
+			if (p[i] == value)
+				return i;
+		}
+	}
+
+	void removeduplicates()
+	{
+		
+
+		for (int i = 1; i < s; i++)
+	{
+			for (int j = 0;j <i;j++)
+			{
+				if (p[j] == p[i])
+				{
+
+					setelement(i, 0);
+			 }
+	  }
+	}
+
+
+
+		for (int i = 0;i < s;i++)
+		{
+			if (p[i] == 0)
+			{
+				remove(i);
+				i--;
+			}
+		}
+
+
+	}
+
+	void concatinate(dynamicfloats b)
+	{
+		int olds = s;
+		s = s + b.s;
+		for (int i = 0;i <b.s ;i++)
+		{
+			p[i+olds] = b.p[i];
+		}
+
+	}
+
+
+};
+
+
+
+void main()
+{
+	dynamicfloats a,b;
+	a.setsize(8);
+	b.setsize(3);
+	a.setelement(0, 2);
+	a.setelement(1, 2);
+	a.setelement(2, 3);
+	a.setelement(3, 2);
+	a.setelement(4, 2);
+	a.setelement(5, 3);
+	a.setelement(6, 2);
+	a.setelement(7, 2);
+	b.setelement(0, 4);
+	b.setelement(1, 4);
+	b.setelement(2, 4);
+	//a.remove(1);
+	//a.removeduplicates();
+	a.concatinate(b);
+	a.removeduplicates();
+	a.print();
+
+	//cout << a.find(3) << endl;
+
+
+
+
+
+	system("pause");
+}
